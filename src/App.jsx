@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { AuthContext } from "./context/authContext";
 import jwt_decode from "jwt-decode";
 import { UserContext } from "./context/userContext";
+import ProjectIndex from "./pages/projects/ProjectIndex";
 const httpLink = createHttpLink({ uri: "http://localhost:4000/graphql" });
 
 const authLink = setContext((_, { headers }) => {
@@ -71,6 +72,7 @@ function App() {
               <Route path="/" exact element={<PrivateLayout />}>
                 <Route index element={<UserIndex />} />
                 <Route path="/editar/:_id" element={<Editar />} />
+                <Route path="/projects" element={<ProjectIndex />} />
               </Route>
               <Route path="/auth" element={<AuthLayout />}>
                 <Route path="register" element={<Register />} />
