@@ -53,7 +53,7 @@ const ProjectIndex = () => {
           </div>
         </PrivateComponent>
         {queryData.Proyectos.map((proyecto) => (
-          <AccordionProyecto proyecto={proyecto} />
+          <AccordionProyecto key={proyecto._id} proyecto={proyecto} />
           //   <p>hello</p>
         ))}
       </div>
@@ -88,6 +88,7 @@ const AccordionProyecto = ({ proyecto }) => {
             {proyecto.objetivos.length != 0 ? (
               proyecto.objetivos.map((objetivo, index) => (
                 <Objetivo
+                  key={objetivo._id}
                   index={index}
                   _id={objetivo._id}
                   idProyecto={proyecto._id}

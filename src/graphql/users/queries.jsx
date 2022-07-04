@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_USUARIOS = gql`
-  query Usuarios {
-    Usuarios {
+  query Usuarios($filtro: filtroUsuarios) {
+    Usuarios(filtro: $filtro) {
       _id
       nombre
       correo
