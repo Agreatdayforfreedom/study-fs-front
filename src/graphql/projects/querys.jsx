@@ -8,12 +8,19 @@ const PROJECTS = gql`
       presupuesto
       estado
       lider {
+        _id
         correo
       }
       objetivos {
         _id
         descripcion
         tipo
+      }
+      inscripciones {
+        estado
+        estudiante {
+          _id
+        }
       }
     }
   }

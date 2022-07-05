@@ -13,15 +13,15 @@ import { Enum_TipoObjetivo } from "../../utils/enums";
 
 const NewProject = () => {
   const { form, formData, updateFormData } = useFormData();
-  //   const { objetivos } = useObj();
   const [listaUsuarios, setListaUsuarios] = useState({});
   const { data, loading, error } = useQuery(GET_USUARIOS, {
-    variables: { filtro: { rol: "ADMINISTRADOR", estado: "AUTORIZADO" } },
+    variables: { filtro: { rol: "LIDER", estado: "AUTORIZADO" } },
   });
   const [
     crearProyecto,
     { data: mutationData, loading: mutationLoading, error: mutationError },
   ] = useMutation(CREAR_PROYECTO);
+  //   const [crearProyecto] = useMutation(CREAR_PROYECTO);
 
   useEffect(() => {
     // console.log("OBJETIVOS", objetivos);
@@ -39,9 +39,7 @@ const NewProject = () => {
     e.preventDefault();
 
     console.log(formData);
-    formData.nested.objetivos = Object.values(formData.nested.objetivos);
-    // formData.fechaInicio = Date.parse(formData.fechaInicio);
-    // formData.fechaFin = Date.parse(formData.fechaFin);
+    formData.objetivos = Object.values(formData.objetivos);
     formData.presupuesto = parseInt(formData.presupuesto);
 
     crearProyecto({ variables: formData });
@@ -125,19 +123,19 @@ const Objetivo = () => {
     </ObjContext.Provider>
   );
 };
-
+//TODO: REFATORIZE CREATION OBJECT
 const FormObjetivo = ({ id }) => {
   const { eliminarObjetivo } = useObj();
   return (
     <div className="flex">
       <Input
-        name="descripcion"
+        name={`nested||objetivos||${id}||descripcion`}
         label="Descripcion"
         type="text"
         required={true}
       />
       <DropDown
-        name="tipo"
+        name={`nested||objetivos||${id}||tipo`}
         options={Enum_TipoObjetivo}
         label="Tipo de Objetivo"
         required={true}
