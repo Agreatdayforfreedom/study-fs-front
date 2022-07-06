@@ -8,7 +8,7 @@ import { useAuth } from "../context/authContext";
 import { REFRESH_TOKEN } from "../graphql/auth/mutations";
 
 const PrivateLayout = () => {
-  const { authToken, setToken } = useAuth();
+  const { setToken } = useAuth();
   const navigate = useNavigate();
   const [loadingAuth, setLoadingAuth] = useState(true);
   const [
@@ -18,7 +18,7 @@ const PrivateLayout = () => {
 
   useEffect(() => {
     refreshToken();
-  }, []);
+  }, [refreshToken]);
 
   useEffect(() => {
     if (dataMutation) {

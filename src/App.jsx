@@ -18,11 +18,12 @@ import jwt_decode from "jwt-decode";
 import { UserContext } from "./context/userContext";
 import ProjectIndex from "./pages/projects/ProjectIndex";
 import NewProject from "./pages/projects/NewProject";
+import InscriptionsIndex from "./pages/inscriptions/InscriptionsIndex";
 const httpLink = createHttpLink({ uri: "http://localhost:4000/graphql" });
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const token = JSON.parse(localStorage.getItem("token"));
+  const token = localStorage.getItem("token");
   // return the headers to the context so httpLink can read them
   return {
     headers: {
@@ -42,10 +43,11 @@ function App() {
   const [authToken, setAuthToken] = useState("");
 
   const setToken = (token) => {
+    // console.log(token, "SETTOKEN");
     setAuthToken(token);
     console.log("TOKEN", token);
     if (token) {
-      localStorage.setItem("token", JSON.stringify(token));
+      localStorage.setItem("token", token);
     } else if (token === null) {
       localStorage.removeItem("token");
     }
@@ -53,7 +55,7 @@ function App() {
   useEffect(() => {
     if (authToken) {
       const decoded = jwt_decode(authToken);
-      // console.log(decoded);
+      console.log(decoded);
       setUserData({
         _id: decoded._id,
         nombre: decoded.nombre,
@@ -76,6 +78,7 @@ function App() {
                 <Route path="/editar/:_id" element={<Editar />} />
                 <Route path="/projects" element={<ProjectIndex />} />
                 <Route path="/proyectos/nuevo" element={<NewProject />} />
+                <Route path="/inscripciones" element={<InscriptionsIndex />} />
               </Route>
               <Route path="/auth" element={<AuthLayout />}>
                 <Route path="register" element={<Register />} />

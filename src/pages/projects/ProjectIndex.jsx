@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import { styled } from "@mui/material/styles";
+import {
+  AccordionStyled,
+  AccordionSummaryStyled,
+  AccordionDetailsStyled,
+} from "../../components/Accordion";
 import { PROJECTS } from "../../graphql/projects/querys";
 import PrivateComponent from "../../components/PrivateComponent";
 import { Link } from "react-router-dom";
@@ -18,24 +19,10 @@ import { CREAR_INSCRIPCION } from "../../graphql/inscriptions/mutations";
 import { useUser } from "../../context/userContext";
 import { toast } from "react-toastify";
 
-const AccordionStyled = styled((props) => <Accordion {...props} />)(() => ({
-  backgroundColor: "#919191",
-}));
-const AccordionSummaryStyled = styled((props) => (
-  <AccordionSummary {...props} />
-))(() => ({
-  backgroundColor: "#919191",
-}));
-const AccordionDetailsStyled = styled((props) => (
-  <AccordionDetails {...props} />
-))(() => ({
-  backgroundColor: "#ccc",
-}));
-
 const ProjectIndex = () => {
-  const { data: queryData, loading } = useQuery(PROJECTS);
+  const { data: queryData, loading, error } = useQuery(PROJECTS);
 
-  console.log("projects here ", queryData);
+  console.log("projects here ", queryData, error);
   if (loading) return <div>Cargando...</div>;
   if (!queryData) return <div>No Hay Proyectos </div>;
   if (queryData.Proyectos) {
@@ -184,12 +171,13 @@ const InscripcionProyecto = ({ idProyecto, estado, inscripciones }) => {
   }, [userData, inscripciones]);
   useEffect(() => {
     if (data) {
-      console.log(data);
       toast.success("Inscripcion enviada");
     }
   }, [data]);
 
   const confirmarInscripcion = () => {
+    console.log(idProyecto, userData._id);
+
     crearInscripcion({
       variables: { proyecto: idProyecto, estudiante: userData._id },
     });

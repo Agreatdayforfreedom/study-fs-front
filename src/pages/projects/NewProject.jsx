@@ -39,7 +39,7 @@ const NewProject = () => {
     e.preventDefault();
 
     console.log(formData);
-    formData.objetivos = Object.values(formData.objetivos);
+    // formData.nested.objetivos = Object.values(formData.nested.objetivos);
     formData.presupuesto = parseInt(formData.presupuesto);
 
     crearProyecto({ variables: formData });
@@ -88,7 +88,7 @@ const NewProject = () => {
           name="lider"
           required={true}
         />
-        <Objetivo />
+        {/* <Objetivo /> */}
         <ButtonLoading disabled={false} loading={false} text="Crear" />
       </form>
     </div>
