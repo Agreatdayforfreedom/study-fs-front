@@ -22,7 +22,7 @@ import { CREAR_INSCRIPCION } from '../../graphql/inscriptions/mutations';
 import { useUser } from '../../context/userContext';
 import {
   ProjectQueryContext,
-  useProjectQueryContext,
+  useProjectQuery,
 } from '../../context/projectQueryContext';
 
 function ProjectIndex() {
