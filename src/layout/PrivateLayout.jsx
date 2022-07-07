@@ -1,13 +1,13 @@
-import { useMutation } from "@apollo/client";
-import React, { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Sidebar from "../components/Sidebar";
-import { useAuth } from "../context/authContext";
-import { REFRESH_TOKEN } from "../graphql/auth/mutations";
+import { useMutation } from '@apollo/client';
+import React, { useEffect, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../components/Sidebar';
+import { useAuth } from '../context/authContext';
+import { REFRESH_TOKEN } from '../graphql/auth/mutations';
 
-const PrivateLayout = () => {
+function PrivateLayout() {
   const { setToken } = useAuth();
   const navigate = useNavigate();
   const [loadingAuth, setLoadingAuth] = useState(true);
@@ -27,7 +27,7 @@ const PrivateLayout = () => {
         setToken(dataMutation.refreshToken.token);
       } else {
         setToken(null);
-        navigate("/auth/login");
+        navigate('/auth/login');
       }
       setLoadingAuth(false);
     }
@@ -40,16 +40,16 @@ const PrivateLayout = () => {
   // }
 
   return (
-    <div className="flex flex-col md:flex-row flex-no-wrap h-screen">
+    <div className='flex flex-col md:flex-row flex-no-wrap h-screen'>
       <Sidebar />
-      <div className="flex w-full h-full">
-        <div className="w-full h-full  overflow-y-scroll">
+      <div className='flex w-full h-full'>
+        <div className='w-full h-full  overflow-y-scroll'>
           <Outlet />
         </div>
       </div>
       <ToastContainer />
     </div>
   );
-};
+}
 
 export default PrivateLayout;

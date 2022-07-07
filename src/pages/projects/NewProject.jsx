@@ -1,21 +1,21 @@
-import { useMutation, useQuery } from "@apollo/client";
-import { nanoid } from "nanoid";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import ButtonLoading from "../../components/ButtonLoading";
-import DropDown from "../../components/Dropdown";
-import Input from "../../components/Input";
-import { ObjContext, useObj } from "../../context/objContext";
-import { CREAR_PROYECTO } from "../../graphql/projects/mutations";
-import { GET_USUARIOS } from "../../graphql/users/queries";
-import useFormData from "../../hooks/useFormData";
-import { Enum_TipoObjetivo } from "../../utils/enums";
+import { useMutation, useQuery } from '@apollo/client';
+import { nanoid } from 'nanoid';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import ButtonLoading from '../../components/ButtonLoading';
+import DropDown from '../../components/Dropdown';
+import Input from '../../components/Input';
+import { ObjContext, useObj } from '../../context/objContext';
+import { CREAR_PROYECTO } from '../../graphql/projects/mutations';
+import { GET_USUARIOS } from '../../graphql/users/queries';
+import useFormData from '../../hooks/useFormData';
+import { Enum_TipoObjetivo } from '../../utils/enums';
 
-const NewProject = () => {
+function NewProject() {
   const { form, formData, updateFormData } = useFormData();
   const [listaUsuarios, setListaUsuarios] = useState({});
   const { data, loading, error } = useQuery(GET_USUARIOS, {
-    variables: { filtro: { rol: "LIDER", estado: "AUTORIZADO" } },
+    variables: { filtro: { rol: 'LIDER', estado: 'AUTORIZADO' } },
   });
   const [
     crearProyecto,
@@ -51,55 +51,40 @@ const NewProject = () => {
 
   if (loading) return <div>Loading ....</div>;
   return (
-    <div className="p-10 flex flex-col items-center">
-      <div className="self-start">
-        <Link to="/projects">Return</Link>
+    <div className='p-10 flex flex-col items-center'>
+      <div className='self-start'>
+        <Link to='/projects'>Return</Link>
       </div>
 
-      <h1 className="font-bold">Crear Nuevo Proyecto</h1>
+      <h1 className='font-bold'>Crear Nuevo Proyecto</h1>
       <form ref={form} onChange={updateFormData} onSubmit={submitForm}>
+        <Input name='nombre' label='Nombre del Proyecto' required type='text' />
         <Input
-          name="nombre"
-          label="Nombre del Proyecto"
-          required={true}
-          type="text"
-        />
-        <Input
-          name="presupuesto"
-          label="Presupuesto del Proyecto"
-          required={true}
-          type="number"
+          name='presupuesto'
+          label='Presupuesto del Proyecto'
+          required
+          type='number'
         />
         <Input
-          name="fechaInicio"
-          label="Fecha de Inicio"
-          required={true}
-          type="date"
+          name='fechaInicio'
+          label='Fecha de Inicio'
+          required
+          type='date'
         />
-        <Input
-          name="fechaFin"
-          label="Fecha de Fin"
-          required={true}
-          type="date"
-        />
-        <DropDown
-          label="Lider"
-          options={listaUsuarios}
-          name="lider"
-          required={true}
-        />
+        <Input name='fechaFin' label='Fecha de Fin' required type='date' />
+        <DropDown label='Lider' options={listaUsuarios} name='lider' required />
         {/* <Objetivo /> */}
-        <ButtonLoading disabled={false} loading={false} text="Crear" />
+        <ButtonLoading disabled={false} loading={false} text='Crear' />
       </form>
     </div>
   );
-};
+}
 
-const Objetivo = () => {
+function Objetivo() {
   const [objetivos, setObjetivos] = useState([]);
   console.log(objetivos);
 
-  //add input
+  // add input
   const objetivoAgreado = () => {
     const id = nanoid();
     return <FormObjetivo key={id} id={id} />;
@@ -122,27 +107,27 @@ const Objetivo = () => {
       </div>
     </ObjContext.Provider>
   );
-};
-//TODO: REFATORIZE CREATION OBJECT
-const FormObjetivo = ({ id }) => {
+}
+// TODO: REFATORIZE CREATION OBJECT
+function FormObjetivo({ id }) {
   const { eliminarObjetivo } = useObj();
   return (
-    <div className="flex">
+    <div className='flex'>
       <Input
         name={`nested||objetivos||${id}||descripcion`}
-        label="Descripcion"
-        type="text"
-        required={true}
+        label='Descripcion'
+        type='text'
+        required
       />
       <DropDown
         name={`nested||objetivos||${id}||tipo`}
         options={Enum_TipoObjetivo}
-        label="Tipo de Objetivo"
-        required={true}
+        label='Tipo de Objetivo'
+        required
       />
       <button onClick={() => eliminarObjetivo(id)}>menos</button>
     </div>
   );
-};
+}
 
 export default NewProject;

@@ -1,44 +1,42 @@
-import { useMutation, useQuery } from "@apollo/client";
-import React, { useEffect } from "react";
-import ButtonLoading from "../../components/ButtonLoading";
-import { toast } from "react-toastify";
-import PrivateRoute from "../../components/PrivateRoute";
-import { APROBAR_INSCRIPCION } from "../../graphql/inscriptions/mutations";
-import { INSCRIPCIONES } from "../../graphql/inscriptions/queries";
+import { useMutation, useQuery } from '@apollo/client';
+import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
+import ButtonLoading from '../../components/ButtonLoading';
+import PrivateRoute from '../../components/PrivateRoute';
+import { APROBAR_INSCRIPCION } from '../../graphql/inscriptions/mutations';
+import { INSCRIPCIONES } from '../../graphql/inscriptions/queries';
 import {
   AccordionDetailsStyled,
   AccordionStyled,
   AccordionSummaryStyled,
-} from "../../components/Accordion";
+} from '../../components/Accordion';
 
-const InscriptionsIndex = () => {
+function InscriptionsIndex() {
   const { data, loading, error } = useQuery(INSCRIPCIONES);
 
   useEffect(() => {
-    console.log(data, "FARA");
+    console.log(data, 'FARA');
   }, [data]);
   if (loading) return <div>Loading..</div>;
   return (
-    <PrivateRoute roleList={["ADMINISTRADOR", "LIDER"]}>
-      <div className="flex flex-col">
+    <PrivateRoute roleList={['ADMINISTRADOR', 'LIDER']}>
+      <div className='flex flex-col'>
         <div>InscriptionsIndex</div>;
-        <div className="mt-4">
-          <>
-            <InscripcionesAprobadas
-            // data={data.inscripciones.filter((e) => e.estado === "APROBADO")}
-            />
-            <InscripcionesPendientes
-              data={data.inscripciones.filter((e) => e.estado === "PENDIENTE")}
-            />
-            <InscripcionesRechazadas />
-          </>
+        <div className='mt-4'>
+          <InscripcionesAprobadas
+          // data={data.inscripciones.filter((e) => e.estado === "APROBADO")}
+          />
+          <InscripcionesPendientes
+            data={data.inscripciones.filter((e) => e.estado === 'PENDIENTE')}
+          />
+          <InscripcionesRechazadas />
         </div>
       </div>
     </PrivateRoute>
   );
-};
+}
 
-const InscripcionesAprobadas = ({ data }) => {
+function InscripcionesAprobadas({ data }) {
   return (
     <AccordionStyled>
       <AccordionSummaryStyled>Aprobadas</AccordionSummaryStyled>
@@ -50,10 +48,10 @@ const InscripcionesAprobadas = ({ data }) => {
       </AccordionDetailsStyled>
     </AccordionStyled>
   );
-};
+}
 
-const InscripcionesPendientes = ({ data }) => {
-  console.log(data, "DATA PENDIENTE");
+function InscripcionesPendientes({ data }) {
+  console.log(data, 'DATA PENDIENTE');
   return (
     <AccordionStyled>
       <AccordionSummaryStyled>Pendientes</AccordionSummaryStyled>
@@ -65,30 +63,30 @@ const InscripcionesPendientes = ({ data }) => {
       </AccordionDetailsStyled>
     </AccordionStyled>
   );
-};
+}
 
-const InscripcionesRechazadas = () => {
+function InscripcionesRechazadas() {
   return (
     <AccordionStyled>
       <AccordionSummaryStyled>Rechazadas</AccordionSummaryStyled>
       <AccordionDetailsStyled>Detalles rechazadas</AccordionDetailsStyled>
     </AccordionStyled>
   );
-};
+}
 
-const Inscripcion = ({ inscripcion }) => {
+function Inscripcion({ inscripcion }) {
   const [aprobarInscripcion, { data, loading, error }] =
     useMutation(APROBAR_INSCRIPCION);
 
   useEffect(() => {
     if (data) {
-      toast.success("Inscripcion aprobada");
+      toast.success('Inscripcion aprobada');
     }
   }, [data]);
 
   useEffect(() => {
     if (error) {
-      toast.success("Error al aprobar la inscripcion");
+      toast.success('Error al aprobar la inscripcion');
     }
   }, [error]);
 
@@ -101,7 +99,7 @@ const Inscripcion = ({ inscripcion }) => {
   };
 
   return (
-    <div className="p-2 rounded-lg bg-gray-900 text-white">
+    <div className='p-2 rounded-lg bg-gray-900 text-white'>
       <p>{proyecto.nombre}</p>
       <p>{estudiante.nombre}</p>
       <p>{estado}</p>
@@ -109,11 +107,11 @@ const Inscripcion = ({ inscripcion }) => {
       <ButtonLoading
         disabled={false}
         loading={false}
-        text="Aprobar"
+        text='Aprobar'
         onClick={() => cambiarEstadoInscripcion()}
       />
     </div>
   );
-};
+}
 
 export default InscriptionsIndex;

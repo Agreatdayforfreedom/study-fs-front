@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 const EDITAR_PROYECTO = gql`
   mutation Mutation($_id: String!, $campos: camposProyecto!) {
@@ -31,4 +31,12 @@ const CREAR_PROYECTO = gql`
   }
 `;
 
-export { EDITAR_PROYECTO, CREAR_PROYECTO };
+const ELIMINAR_OBJETIVO = gql`
+  mutation EliminarObjetivo($idProyecto: String!, $idObjetivo: String!) {
+    eliminarObjetivo(idProyecto: $idProyecto, idObjetivo: $idObjetivo) {
+      _id
+    }
+  }
+`;
+
+export { EDITAR_PROYECTO, CREAR_PROYECTO, ELIMINAR_OBJETIVO };
